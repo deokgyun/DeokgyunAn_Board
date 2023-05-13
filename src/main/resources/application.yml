@@ -1,0 +1,19 @@
+server:
+  port: 8088
+
+spring:
+  thymeleaf:
+    cache: false
+    checkTemplateLocation: true
+    prefix:file: src/main/resources/templates/
+    suffix: .html
+
+  datasource:
+    driverClassName: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: task
+    password: 1234
+
+mybatis:
+  mapper-locations: mybatis-mapper/**/*.xml
+  typeAliasesPackage: com.example.domain
