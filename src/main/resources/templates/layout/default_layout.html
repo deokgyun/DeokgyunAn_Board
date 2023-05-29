@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <title>thymeleaf layout</title>
+    <!--  CSS fragment-->
+    <th:block th:replace="~{fragments/css :: css}"></th:block>
+
+</head>
+<body data-topbar="dark" data-layout="horizontal" data-layout-size="boxed" data-layout-mode="light">
+<div id="layout-wrapper">
+    <th:block th:replace="~{fragments/header :: headerFragment}"></th:block>
+
+    <th:block th:replace="~{fragments/header :: navFragment}"></th:block>
+    <!-- header fragment 사용 -->
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- content fragment 사용 -->
+                <th:block layout:fragment="content"></th:block>
+
+            </div>
+        </div>
+    </div>
+    <!-- footer fragment 사용 -->
+    <th:block th:replace="~{fragments/footer :: footerFragment}"></th:block>
+
+    <!-- script fragment 사용-->
+    <th:block th:replace="~{fragments/script :: scriptFragment}"/>
+
+</body>
+</html>

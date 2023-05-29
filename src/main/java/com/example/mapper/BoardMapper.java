@@ -1,24 +1,30 @@
 package com.example.mapper;
 
-import com.example.domain.BoardDto;
+import com.example.domain.Page.Criteria;
+import com.example.domain.board.FreeBoard;
+import com.example.domain.board.Notice;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface BoardMapper {
 
-    public String getTime();
+    Notice getNoticeDetail(Long id);
 
-    public int save(BoardDto boardDto);
+    List<Notice> getNoticeList(Criteria criteria);
 
-    public int getMaxBoardNum();
+    List<FreeBoard> getFreeList(Criteria criteria);
 
-    public List<BoardDto> getBoardList();
-    public BoardDto getBoardDetail(int boardNum);
+    FreeBoard getBoardDetail(Long id);
 
-    public List<BoardDto> getRelationBoard(BoardDto boardDto);
+    void boardInsert(FreeBoard freeBoard);
 
-    public int getCountBoard();
+    void readCount(@Param("id")Long id, @Param("tableName") String tableName);
+
+    int totalRecord(String tableName);
+
+    void noticeInsert(Notice notice);
 
 }

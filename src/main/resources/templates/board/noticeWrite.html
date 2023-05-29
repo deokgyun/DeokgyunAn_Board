@@ -1,0 +1,37 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}"
+>
+<head>
+    <title>자유게시판 글쓰기</title>
+</head>
+<body layout:fragment="content" class="auth-body-bg">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">글쓰기</h4>
+                <form>
+                    <div class="mt-3">
+                        <input class="form-control" id="title" type="text" placeholder="제목을 입력해주세요." required>
+                    </div>
+                    <div class="mt-4">
+                    <textarea class="form-control form-control-lg" id="content" placeholder="내용을 입력해주세요." rows="15"
+                              required
+                              style="resize: none;"></textarea>
+                    </div>
+                </form>
+                <div class="mt-3">
+                    <a href="/board" role="button" class="btn btn-secondary">취소</a>
+                    <button type="button" class="btn btn-primary" id="notice-save">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/assets/libs/jquery/jquery.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/js/app/index.js}"></script>
+</body>
+</html>

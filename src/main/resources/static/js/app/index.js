@@ -1,39 +1,58 @@
 var main = {
-    init :function(){
+    init: function () {
         var _this = this;
-        $('#btn-save').on('click', function(){
-            _this.save();
+        $('#board-save').on('click', function () {
+            _this.boardSave();
         });
 
-        $('#freeBoard').on('click', function(){
-            _this.boardMove();
+        $('#notice-save').on('click', function () {
+            _this.noticeSave();
         })
     },
-    save : function(){
+    boardSave: function () {
+
         var data = {
-            title : $('#title').val(),
-            writer : $('#writer').val(),
-            content : $('#content').val()
+            freeSubject: $('#title').val(),
+            freeContent: $('#content').val()
         };
 
         $.ajax({
-            type:'POST',
-            url: '/api/v1/posts',
-            dataType: 'json',
+            type: 'POST',
+            url: '/board/write',
+            dataType: 'text',
             contentType: 'application/json; charset=utf-8',
-            data : JSON.stringify(data)
-        }).done(function(){
+            data: JSON.stringify(data)
+        }).done(function () {
             alert('글이 등록되었습니다.');
             console.log(data);
-            window.location.href='/';
-        }).fail(function(error){
+            window.location.href = '/board';
+        }).fail(function (error) {
             console.log(data);
             alert(JSON.stringify(error));
         })
     },
-    boardMove : function(){
-        var url = "/posts";
-        location.href=url;
+    noticeSave: function () {
+
+        var data = {
+            noticeSubject: $('#title').val(),
+            noticeContent: $('#content').val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/notice/write',
+            dataType: 'text',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function () {
+            alert('글이 등록되었습니다.');
+            console.log(data);
+            window.location.href = '/notice';
+        }).fail(function (error) {
+            console.log(data + "오류");
+            alert(JSON.stringify(error));
+        })
+
     }
 };
 

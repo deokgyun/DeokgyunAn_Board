@@ -1,0 +1,75 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}"
+>
+<head>
+    <title>회원가입</title>
+</head>
+<body layout:fragment="content" class="auth-body-bg">
+
+<form name="joinform" th:action="@{/join}" method="post">
+    <div class="account-pages my-5 pt-sm-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card overflow-hidden">
+                        <div class="bg-primary bg-soft">
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="text-primary p-4">
+                                        <h4 class="text-primary">회원가입</h4>
+                                    </div>
+                                </div>
+                                <div class="col-5 align-self-end">
+                                    <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="p-2">
+                                <div class="mb-3">
+                                    <label for="userId" class="form-label">아이디</label>
+                                    <input type="text" class="form-control" id="userId" name="userId"
+                                           placeholder="id를 입력해주세요." required>
+                                    <span id="idMessage"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="userPassword" class="form-label">비밀번호</label>
+                                    <input type="password" class="form-control" id="userPassword"
+                                           name="userPassword"
+                                           placeholder="비밀번호(6~15자 영문, 숫자, _로 가능합니다.)" required>
+                                    <span id="pwMessage"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="pw2" class="form-label">비밀번호 확인</label>
+                                    <input type="password" class="form-control" id="pw2" name="password_ch"
+                                           placeholder="비밀번호를 다시 입력하세요" required>
+                                    <span id="pw2Message"></span>
+                                </div>
+
+                                <div class="mt-4 d-grid">
+                                    <button class="btn btn-primary waves-effect waves-light"
+                                            type="submit">회원가입
+                                    </button>
+                                </div>
+
+                                <div class="mt-4 d-grid">
+                                    <button class="btn btn-danger waves-effect waves-light"
+                                            type="reset" onClick="history.back();">취소
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
+
+</form>
+</body>
+</html>

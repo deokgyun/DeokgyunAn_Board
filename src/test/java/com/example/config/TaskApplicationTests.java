@@ -1,4 +1,4 @@
-package com.example.task;
+package com.example.config;
 
 import com.example.mapper.BoardMapper;
 import lombok.extern.slf4j.Slf4j;
