@@ -1,8 +1,7 @@
 package com.example.service;
 
 import com.example.domain.Page.Criteria;
-import com.example.domain.board.FreeBoard;
-import com.example.domain.board.Notice;
+import com.example.domain.board.Board;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,19 +9,20 @@ import java.util.List;
 @Service
 public interface BoardService {
 
-    Notice getNoticeDetail(Long id);
 
-    List<Notice> getNoticeList(Criteria criteria);
+    List<Board> getNoticeList(Criteria criteria);
 
-    List<FreeBoard> getFreeList(Criteria criteria);
+    int totalRecord(String boardType);
 
-    void boardInsert(FreeBoard freeBoard);
+    List<Board> getBoardList(Criteria criteria, String boardType);
 
-    FreeBoard getBoardDetail(Long id);
+    void viewCount(Long id);
 
-    void readCount(Long id, String tableName);
+    Board getBoardDetail(Long id);
 
-    int totalRecord(String tableName);
+    void boardInsert(Board board);
 
-    void noticeInsert(Notice notice);
+    Long findByEmail(String userId);
+
+    void boardDelete(Long id);
 }

@@ -35,12 +35,12 @@
                     </thead>
                     <tbody id="tbody">
                     <tr th:each="item : ${noticeList}">
-                        <td><a th:href="@{/notice/{id}(id=${item.noticeNum})}" th:text="${item.noticeSubject}"
+                        <td><a th:href="@{/notice/{id}(id=${item.b_no})}" th:text="${item.b_title}"
                                style="margin-left: 20px;"></a>
                         </td>
-                        <td th:text="${item.userId}" style="text-align: center;">글쓴이</td>
-                        <td th:text="${item.createdDate}" style="text-align: center;">1999-09-09 13:13:13</td>
-                        <td th:text="${item.noticeReadCount}" style="text-align: center;">5</td>
+                        <td th:text="${item.m_name}" style="text-align: center;">글쓴이</td>
+                        <td th:text="${item.create_date}" style="text-align: center;">1999-09-09 13:13:13</td>
+                        <td th:text="${item.b_views}" style="text-align: center;">5</td>
                     </tr>
                     </tbody>
                 </table>

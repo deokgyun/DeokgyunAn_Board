@@ -13,15 +13,124 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex">
-                    <div class="flex-grow-1 overflow-hidden">
-                        <span class="text-truncate font-size-15" th:text="${board.getUserName()}"></span>
-                        <br><span class="text-muted" th:text="${board.getCreatedDate()}"></span>
+                    <div class="flex-grow-1 overflow-hidden d-inline-block">
+                        <span class="text-truncate font-size-15" th:text="${board.m_name}"></span>
+                        <br><span class="text-muted" th:text="${board.create_date}"></span>
                         <i class="bx bx-show"></i>&nbsp;<span class="text-muted"
-                                                              th:text="${board.getFreeReadCount()}"></span>
+                                                              th:text="${board.b_views}"></span>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn waves-effect" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-dots-horizontal-rounded font-size-24"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" style="">
+                            <!-- item-->
+
+                            <a class="dropdown-item" href="#"><span key="t-profile"><i
+                                    class="bx bx-edit-alt font-size-16"></i>수정하기</span></a>
+
+                            <form th:action="@{/board/{id}(id=${board.b_no})}" th:method="delete">
+                                <button class="dropdown-item" type="submit"><i
+                                        class="bx bx-trash font-size-16"></i>삭제하기
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <h5 class="font-size-24 mt-4 mb-3" th:text="${board.getFreeSubject()}">Project Details :</h5>
-                <p class="text-muted" th:text="${board.getFreeContent()}"></p>
+                <h5 class="font-size-24 mt-4 mb-3" th:text="${board.b_title}">Project Details :</h5>
+                <p class="text-muted" th:text="${board.b_content}"></p>
+            </div>
+
+            <div class="card-body">
+                <hr>
+                <form>
+                    <div class="mt-4">
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">등록하기</button>
+                    </div>
+                </form>
+            </div>
+
+<!--            댓글창-->
+            <div class="card-body">
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0 me-3">
+                        <img class="d-flex-object rounded-circle avatar-xs" alt=""
+                             th:src="@{/assets/images/users/avatar-2.jpg}">
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="font-size-13 mb-1">계정1 ·  2023-05-29 12:02</h5>
+                        <p class="text-muted mb-1">
+                            가장 최근 댓글입니다.
+                        </p>
+                    </div>
+                    <div class="ms-3">
+                        <a href="javascript: void(0);" class="text-primary">답글</a>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0 me-3">
+                        <img class="d-flex-object rounded-circle avatar-xs" alt=""
+                             th:src="@{/assets/images/users/avatar-3.jpg}">
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="font-size-13 mb-1">계정2</h5>
+                        <p class="text-muted mb-1">
+                            2번째 댓글입니다.
+                        </p>
+                        <div class="d-flex mt-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-xs">
+                                    <span class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-16">
+                                      J
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow-1">
+                                <h5 class="font-size-13 mb-1">계정 3</h5>
+                                <p class="text-muted mb-1">
+                                    대댓글입니다.
+                                </p>
+                            </div>
+                            <div class="ms-3">
+                                <a href="javascript: void(0);" class="text-primary">답글</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms-3">
+                        <a href="javascript: void(0);" class="text-primary">답글</a>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-xs">
+                            <span class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-16">
+                                S
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow-1">
+                        <h5 class="font-size-13 mb-1">Steven Carlson</h5>
+                        <p class="text-muted mb-1">
+                            Separate existence is a myth.
+                        </p>
+                    </div>
+                    <div class="ms-3">
+                        <a href="javascript: void(0);" class="text-primary">답글</a>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4 pt-2">
+                    <a href="javascript: void(0);" class="btn btn-primary btn-sm">View more</a>
+                </div>
             </div>
         </div>
     </div>

@@ -3,168 +3,92 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.BoardMapper">
-
-    <resultMap id="noticeMap" type="notice">
-        <result column="NOTICE_NUM" property="noticeNum"/>
-        <result column="USER_ID" property="userId"/>
-        <result column="NOTICE_SUBJECT" property="noticeSubject"/>
-        <result column="NOTICE_CONTENT" property="noticeContent"/>
-        <result column="NOTICE_FILE" property="noticeFile"/>
-        <result column="NOTICE_RE_REF" property="noticeReRef"/>
-        <result column="NOTICE_RE_LEV" property="noticeReLev"/>
-        <result column="NOTICE_RE_SEQ" property="noticeReSeq"/>
-        <result column="NOTICE_READCOUNT" property="noticeReadCount"/>
-        <result column="CREATED_DATE" property="createdDate"/>
-        <result column="UPDATE_DATE" property="updatedDate"/>
-        <result column="NOTICE_ORIGINAL" property="noticeOriginal"/>
-        <result column="USER_NAME" property="userName"/>
-    </resultMap>
-
-    <resultMap id="freeMap" type="freeboard">
-        <result column="FREEBOARD_NUM" property="freeNum"/>
-        <result column="USER_ID" property="userId"/>
-        <result column="FREEBOARD_SUBJECT" property="freeSubject"/>
-        <result column="FREEBOARD_CONTENT" property="freeContent"/>
-        <result column="FREEBOARD_FILE" property="freeFile"/>
-        <result column="FREEBOARD_RE_REF" property="freeReRef"/>
-        <result column="FREEBOARD_RE_LEV" property="freeReLev"/>
-        <result column="FREEBOARD_RE_SEQ" property="freeReSeq"/>
-        <result column="FREEBOARD_READCOUNT" property="freeReadCount"/>
-        <result column="CREATED_DATE" property="createdDate"/>
-        <result column="UPDATE_DATE" property="updatedDate"/>
-        <result column="FREEBOARD_ORIGINAL" property="freeOriginal"/>
-        <result column="USER_NAME" property="userName"/>
-    </resultMap>
-
-    <select id="getNoticeList" resultMap="noticeMap">
-        SELECT NOTICE_NUM,
-               USER_ID,
-               NOTICE_SUBJECT,
-               NOTICE_CONTENT,
-               NOTICE_FILE,
-               NOTICE_ORIGINAL,
-               NOTICE_RE_REF,
-               NOTICE_RE_LEV,
-               NOTICE_RE_SEQ,
-               NOTICE_READCOUNT,
-               CREATED_DATE,
-               UPDATE_DATE
-        FROM TB_NOTICE
-        ORDER BY NOTICE_NUM DESC
+    <select id="totalRecord" parameterType="String" resultType="int">
+        SELECT COUNT(B_NO)
+        FROM TB_BOARD
+        WHERE B_TYPE = #{value}
     </select>
 
-    <select id="getFreeList" resultMap="freeMap">
+    <select id="getBoardList" resultType="board" parameterType="criteria">
 <![CDATA[
         SELECT ROWNUM,
-               FREEBOARD_NUM,
-               USER_ID,
-               FREEBOARD_SUBJECT,
-               FREEBOARD_CONTENT,
-               FREEBOARD_FILE,
-               FREEBOARD_ORIGINAL,
-               FREEBOARD_RE_REF,
-               FREEBOARD_RE_LEV,
-               FREEBOARD_RE_SEQ,
-               FREEBOARD_READCOUNT,
-               CREATED_DATE,
-               UPDATE_DATE
+               B_NO,
+               B_TYPE,
+               B_TITLE,
+               B_CONTENT,
+               B_VIEWS,
+               CREATE_DATE,
+               UPDATE_DATE,
+               M_NAME,
+               DEPT_NAME,
+               JOB_NAME
         FROM (SELECT ROWNUM RN,
-                     FREEBOARD_NUM,
-                     USER_ID,
-                     FREEBOARD_SUBJECT,
-                     FREEBOARD_CONTENT,
-                     FREEBOARD_FILE,
-                     FREEBOARD_ORIGINAL,
-                     FREEBOARD_RE_REF,
-                     FREEBOARD_RE_LEV,
-                     FREEBOARD_RE_SEQ,
-                     FREEBOARD_READCOUNT,
-                     CREATED_DATE,
-                     UPDATE_DATE
-              FROM TB_BOARD
-              WHERE ROWNUM <= #{pageNum} * #{amount}
-              ORDER BY FREEBOARD_NUM DESC)
-        WHERE RN > (#{pageNum} - 1) * #{amount}
+                     a.B_NO,
+                     a.B_TYPE,
+                     a.B_TITLE,
+                     a.B_CONTENT,
+                     a.B_VIEWS,
+                     a.CREATE_DATE,
+                     a.UPDATE_DATE,
+                     b.M_NAME,
+                     c.DEPT_NAME,
+                     d.JOB_NAME
+              FROM TB_BOARD a
+                       JOIN TB_MEMBER b
+                            ON a.M_NO = b.M_NO
+                       LEFT OUTER JOIN TB_DEPT c
+                                       ON b.DEPT_ID = c.DEPT_ID
+                       LEFT OUTER JOIN TB_JOB d
+                                       ON b.JOB_ID = d.JOB_ID
+              WHERE ROWNUM <= #{criteria.pageNum} * #{criteria.amount}
+                AND B_TYPE = #{boardType}
+              ORDER BY a.B_NO DESC)
+        WHERE RN > #{criteria.skip}
         ]]>
     </select>
 
-    <select id="getNoticeDetail" resultMap="noticeMap">
-        SELECT a.NOTICE_NUM,
-               a.USER_ID,
-               a.NOTICE_SUBJECT,
-               a.NOTICE_CONTENT,
-               a.NOTICE_FILE,
-               a.NOTICE_ORIGINAL,
-               a.NOTICE_RE_REF,
-               a.NOTICE_RE_LEV,
-               a.NOTICE_RE_SEQ,
-               a.NOTICE_READCOUNT,
-               a.CREATED_DATE,
+    <update id="viewCount">
+    UPDATE TB_BOARD
+    SET B_VIEWS = B_VIEWS + 1
+    WHERE B_NO = #{id}
+    </update>
+
+    <select id="getBoardDetail" resultType="board">
+        SELECT a.B_NO,
+               a.B_TYPE,
+               a.B_TITLE,
+               a.B_CONTENT,
+               a.B_VIEWS,
+               a.CREATE_DATE,
                a.UPDATE_DATE,
-            b.USER_NAME
-        FROM TB_NOTICE a
+               b.M_NAME,
+               c.DEPT_NAME,
+               d.JOB_NAME
+        FROM TB_BOARD a
                  JOIN TB_MEMBER b
-                      ON a.USER_ID = b.USER_ID
-        WHERE NOTICE_NUM = #{noticeNum}
+                      ON a.M_NO = b.M_NO
+                 LEFT OUTER JOIN TB_DEPT c
+                                 ON b.DEPT_ID = c.DEPT_ID
+                 LEFT OUTER JOIN TB_JOB d
+                                 ON b.JOB_ID = d.JOB_ID
+        WHERE a.B_NO = #{id}
     </select>
 
     <insert id="boardInsert">
-        INSERT INTO TB_BOARD(FREEBOARD_NUM,
-                             USER_ID,
-                             FREEBOARD_SUBJECT,
-                             FREEBOARD_CONTENT)
-        VALUES ((SELECT NVL(MAX(FREEBOARD_NUM) + 1, 1) FROM TB_BOARD),
-                #{userId},
-                #{freeSubject},
-                #{freeContent})
+        INSERT INTO TB_BOARD(B_NO,
+                             B_TYPE,
+                             B_TITLE,
+                             B_CONTENT,
+                             M_NO)
+        VALUES ((SELECT NVL(MAX(B_NO) + 1, 1) FROM TB_BOARD),
+                #{b_type},
+                #{b_title},
+                #{b_content},
+                #{m_no})
     </insert>
 
-    <insert id="noticeInsert">
-        INSERT INTO TB_NOTICE(NOTICE_NUM,
-                              USER_ID,
-                              NOTICE_SUBJECT,
-                              NOTICE_CONTENT)
-        VALUES ((SELECT NVL(MAX(NOTICE_NUM) + 1, 1) FROM TB_NOTICE),
-                #{userId},
-                #{noticeSubject},
-                #{noticeContent})
-    </insert>
-
-    <select id="getBoardDetail" resultMap="freeMap">
-        SELECT a.FREEBOARD_NUM,
-               a.USER_ID,
-               a.FREEBOARD_SUBJECT,
-               a.FREEBOARD_CONTENT,
-               a.FREEBOARD_FILE,
-               a.FREEBOARD_ORIGINAL,
-               a.FREEBOARD_RE_REF,
-               a.FREEBOARD_RE_LEV,
-               a.FREEBOARD_RE_SEQ,
-               a.FREEBOARD_READCOUNT,
-               a.CREATED_DATE,
-               a.UPDATE_DATE,
-               b.USER_NAME
-        FROM TB_BOARD a
-                 JOIN TB_MEMBER b
-                      ON a.USER_ID = b.USER_ID
-        WHERE FREEBOARD_NUM = #{freeNum}
-    </select>
-
-    <update id="readCount">
-        UPDATE ${tableName}
-        <if test="tableName == 'TB_BOARD'">
-            SET FREEBOARD_READCOUNT = FREEBOARD_READCOUNT + 1
-            WHERE FREEBOARD_NUM = #{id}
-        </if>
-        <if test="tableName == 'TB_NOTICE'">
-            SET NOTICE_READCOUNT = NOTICE_READCOUNT + 1
-            WHERE NOTICE_NUM = #{id}
-        </if>
-    </update>
-
-    <select id="totalRecord" parameterType="String" resultType="int">
-        SELECT COUNT(USER_ID)
-        FROM ${value}
-    </select>
-
+    <delete id="boardDelete">
+        DELETE FROM TB_BOARD
+        WHERE B_NO = #{id}
+    </delete>
 </mapper>

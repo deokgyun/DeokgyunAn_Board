@@ -1,12 +1,10 @@
 package com.example.service;
 
 import com.example.domain.Page.Criteria;
-import com.example.domain.board.FreeBoard;
-import com.example.domain.board.Notice;
+import com.example.domain.board.Board;
 import com.example.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,72 +20,52 @@ public class BoardServiceImpl implements BoardService {
         this.dao = dao;
     }
 
-    public Notice getNoticeDetail(Long id) {
-        return dao.getNoticeDetail(id);
+    public List<Board> getNoticeList(Criteria criteria) {
+        return dao.getNoticeList(criteria);
     }
 
-    public List<Notice> getNoticeList(Criteria criteria) {
-        List<Notice> list = dao.getNoticeList(criteria);
-        return getNotice(list);
+    public int totalRecord(String boardType) {
+        return dao.totalRecord(boardType);
     }
 
-    private static List<Notice> getNotice(List<Notice> list) {
-        LocalDateTime today = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        for (Notice l : list) {
-            LocalDateTime noticeTime = LocalDateTime.parse(l.getCreatedDate(), formatter);
-            boolean betweenDays = noticeTime.toLocalDate().isEqual(today.toLocalDate());
-            if (betweenDays) {
-                l.setCreatedDate(l.getCreatedDate().substring(11, 16));
-            } else {
-                l.setCreatedDate(l.getCreatedDate().substring(0, 10));
-            }
-        }
-        return list;
-    }
-
-    public List<FreeBoard> getFreeList(Criteria criteria) {
-        List<FreeBoard> list = dao.getFreeList(criteria);
+    public List<Board> getBoardList(Criteria criteria, String boardType) {
+        List<Board> list = dao.getBoardList(criteria, boardType);
         return getFreeBoards(list);
     }
 
-    private static List<FreeBoard> getFreeBoards(List<FreeBoard> list) {
+    public void viewCount(Long id) {
+        dao.viewCount(id);
+    }
+
+    public Board getBoardDetail(Long id) {
+        return dao.getBoardDetail(id);
+    }
+
+    public void boardInsert(Board board) {
+        dao.boardInsert(board);
+    }
+    public     Long findByEmail(String userId){
+        return dao.findByEmail(userId);
+    }
+    public     void boardDelete(Long id){
+        dao.boardDelete(id);
+    }
+
+
+    private static List<Board> getFreeBoards(List<Board> list) {
         LocalDateTime today = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        for (FreeBoard l : list) {
-            LocalDateTime getTime = LocalDateTime.parse(l.getCreatedDate(), formatter);
+        for (Board l : list) {
+            LocalDateTime getTime = LocalDateTime.parse(l.getCreate_date(), formatter);
             boolean betweenDays = getTime.toLocalDate().isEqual(today.toLocalDate());
             if (betweenDays) {
-                l.setCreatedDate(l.getCreatedDate().substring(11, 16));
+                l.setCreate_date(l.getCreate_date().substring(11, 16));
             } else {
-                l.setCreatedDate(l.getCreatedDate().substring(0, 10));
+                l.setCreate_date(l.getCreate_date().substring(0, 10));
             }
         }
         return list;
-    }
-
-    @Transactional
-    public void boardInsert(FreeBoard freeBoard) {
-        dao.boardInsert(freeBoard);
-    }
-
-    public FreeBoard getBoardDetail(Long id) {
-        FreeBoard board = dao.getBoardDetail(id);
-        System.out.println("board = " + board);
-        return board;
-    }
-
-    public void readCount(Long id, String tableName) {
-        dao.readCount(id, tableName);
-    }
-
-    public int totalRecord(String tableName) {
-        return dao.totalRecord(tableName);
-    }
-
-    public void noticeInsert(Notice notice){
-        dao.noticeInsert(notice);
     }
 
 }

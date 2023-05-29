@@ -19,7 +19,7 @@ public class AuthorizationController {
     @PostMapping("join")
     public String join(Member member){
         memberService.saveMember(member);
-        return "redirect:/login";
+        return "redirect:/";
     }
 
 }

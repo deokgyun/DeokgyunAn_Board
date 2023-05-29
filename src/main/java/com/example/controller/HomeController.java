@@ -1,8 +1,6 @@
 package com.example.controller;
 
 import com.example.domain.Page.Criteria;
-import com.example.domain.board.FreeBoard;
-import com.example.domain.board.Notice;
 import com.example.service.BoardService;
 import com.example.service.MemberService;
 import jakarta.servlet.http.Cookie;
@@ -11,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 public class HomeController {
@@ -45,11 +41,9 @@ public class HomeController {
 
     @GetMapping("/main")
     public ModelAndView main(ModelAndView mv, Criteria criteria) {
-        criteria.setAmount(5);
-        List<Notice> noticeList = boardService.getNoticeList(criteria);
-        List<FreeBoard> boardList = boardService.getFreeList(criteria);
-        mv.addObject("noticeList", noticeList);
-        mv.addObject("boardList", boardList);
+
+
+
         mv.setViewName("index");
         return mv;
     }
