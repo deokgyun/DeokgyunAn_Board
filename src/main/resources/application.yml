@@ -13,11 +13,13 @@ spring:
   datasource:
     driverClassName: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521/xe
-#    url: jdbc:log4jdbc:oracle:thin:@localhost:1521/xe
     username: task
     password: 1234
 
-
+  mvc:
+    hiddenMethod:
+      filter:
+        enabled: true
 
 mybatis:
   mapper-locations: mybatis-mapper/**/*.xml

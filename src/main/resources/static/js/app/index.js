@@ -12,8 +12,9 @@ var main = {
     boardSave: function () {
 
         var data = {
-            freeSubject: $('#title').val(),
-            freeContent: $('#content').val()
+            b_type : '자유',
+            b_title: $('#title').val(),
+            b_content: $('#content').val()
         };
 
         $.ajax({
@@ -34,8 +35,9 @@ var main = {
     noticeSave: function () {
 
         var data = {
-            noticeSubject: $('#title').val(),
-            noticeContent: $('#content').val()
+            b_type : '공지',
+            b_title: $('#title').val(),
+            b_content: $('#content').val()
         };
 
         $.ajax({

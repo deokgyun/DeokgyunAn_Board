@@ -12,10 +12,18 @@
         <div class="card">
             <div class="btn-toolbar p-3 justify-content-between" role="toolbar">
                 <div class="card-title">
-                    <span class="font-size-18">자유게시판</span>
+                    <span class="font-size-18" th:if="${boardType.equals('자유')}" th:text="자유게시판"></span>
+                    <span class="font-size-18" th:if="${boardType.equals('공지')}" th:text="공지사항"></span>
                 </div>
-                <div class="btn-group me-2 mb-2 mb-sm-0">
+
+                <div class="btn-group me-2 mb-2 mb-sm-0" th:if="${boardType.equals('자유')}">
                     <a th:href="@{/board/write}">
+                        <button type="button" class="btn btn-primary waves-light waves-effect btn-sm"><i
+                                class="bx bx-pencil"></i><span class="ms-3">글쓰기</span></button>
+                    </a>
+                </div>
+                <div class="btn-group me-2 mb-2 mb-sm-0" th:if="${boardType.equals('공지')}">
+                    <a th:href="@{/notice/write}">
                         <button type="button" class="btn btn-primary waves-light waves-effect btn-sm"><i
                                 class="bx bx-pencil"></i><span class="ms-3">글쓰기</span></button>
                     </a>
@@ -33,12 +41,14 @@
                     </thead>
                     <tbody id="tbody">
                     <tr th:each="item : ${freeList}">
-                        <td><a th:href="@{/board/{id}(id=${item.freeNum})}" th:text="${item.freeSubject}"
+                        <td><a th:if="${boardType.equals('자유')}" th:href="@{/board/{id}(id=${item.b_no})}" th:text="${item.b_title}"
+                               style="margin-left: 20px;"></a>
+                            <a th:if="${boardType.equals('공지')}" th:href="@{/notice/{id}(id=${item.b_no})}" th:text="${item.b_title}"
                                style="margin-left: 20px;"></a>
                         </td>
-                        <td th:text="${item.userId}" style="text-align: center;">글쓴이</td>
-                        <td th:text="${item.createdDate}" style="text-align: center;">1999-09-09 13:13:13</td>
-                        <td th:text="${item.freeReadCount}" style="text-align: center;">5</td>
+                        <td th:text="${item.m_name}" style="text-align: center;">글쓴이</td>
+                        <td th:text="${item.create_date}" style="text-align: center;">1999-09-09 13:13:13</td>
+                        <td th:text="${item.b_views}" style="text-align: center;">5</td>
                     </tr>
                     </tbody>
                 </table>

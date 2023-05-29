@@ -4,46 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.MemberMapper">
 
-    <resultMap id="memberMap" type="member">
-        <result column="USER_NO" property="userNo"/>
-        <result column="USER_ID" property="userId"/>
-        <result column="USER_PASSWORD" property="userPassword"/>
-        <result column="USER_NAME" property="userName"/>
-        <result column="USER_IMG" property="userImg"/>
-        <result column="USER_AUTH" property="userAuth"/>
-        <result column="USER_DEPT" property="userDept"/>
-        <result column="USER_JOB" property="userJob"/>
-        <result column="USER_STATE" property="userState"/>
-        <result column="USER_PHONE" property="userPhone"/>
-        <result column="USER_LASTTIME" property="userLasttime"/>
-        <result column="CREATE_DATE" property="createdDate"/>
-        <result column="UPDATE_DATE" property="updatedDate"/>
-    </resultMap>
-    
-    
-    <select id="getUserId" resultMap="memberMap">
+    <select id="getUserId" resultType="member">
         SELECT
-            USER_NO,
-            USER_ID,
-            USER_PASSWORD,
-            USER_NAME,
-            USER_IMG,
-            USER_AUTH,
-            USER_DEPT,
-            USER_JOB,
-            USER_STATE,
-            USER_PHONE,
-            USER_LASTTIME,
-            CREATED_DATE,
+            M_NO,
+            M_EMAIL,
+            M_PWD,
+            M_AUTH,
+            M_STATUS,
+            M_PHONE,
+            M_NAME,
+            DEPT_ID,
+            JOB_ID,
+            CREATE_DATE,
             UPDATE_DATE
         FROM TB_MEMBER
-        WHERE USER_ID = #{userId}
+        WHERE M_EMAIL = #{m_email}
     </select>
 
     <insert id="saveMember" parameterType="member">
         INSERT INTO TB_MEMBER
-            (USER_NO, USER_ID, USER_PASSWORD)
-        VALUES (USER_SEQ.NEXTVAL, #{userId}, #{userPassword})
-
+            (M_NO, M_EMAIL, M_PWD, M_NAME)
+        VALUES (MEMBER_SEQ.NEXTVAL, #{m_email}, #{m_pwd}, #{m_name})
     </insert>
+
+
 </mapper>

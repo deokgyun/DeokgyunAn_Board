@@ -26,9 +26,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     public void saveMember(Member member) {
-        member.setUserPassword(passwordEncoder.encode(member.getUserPassword()));
+        member.setM_pwd(passwordEncoder.encode(member.getM_pwd()));
         dao.saveMember(member);
-
     }
 
 
